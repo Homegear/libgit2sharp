@@ -19,6 +19,11 @@
 
  [libgit2]: http://libgit2.github.com/
 
+## Some info for this fork
+
+The changes are tested only for x64.
+We added ssh support (basically the same as here: https://github.com/alex-weaver/libgit2sharp but also with some detailing in the SupportedCredentialTypes). libgit2 is not included anymore but it's based on libgit2-1.1.1. The dll should now be named simply git2.dll and it should be built with ssh support. This libgit2sharp fork uses the newer calls in libgit2, avoiding the deprecated ones, too.
+
 ## Prerequisites
 
  - **Windows:** .NET 4.6.1+
