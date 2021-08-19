@@ -66,7 +66,7 @@ namespace LibGit2Sharp
                 throw new ArgumentOutOfRangeException("size");
             }
 
-            IntPtr buffer = Proxy.git_odb_backend_malloc(this.GitOdbBackendPointer, new UIntPtr((ulong)size));
+            IntPtr buffer = Proxy.git_odb_backend_data_alloc(this.GitOdbBackendPointer, new UIntPtr((ulong)size));
 
             return new UnmanagedMemoryStream((byte*)buffer, 0, size, FileAccess.ReadWrite);
         }

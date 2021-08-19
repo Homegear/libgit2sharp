@@ -33,7 +33,7 @@ namespace LibGit2Sharp.Core
         {
             if (Array.Strings != IntPtr.Zero)
             {
-                NativeMethods.git_strarray_free(ref Array);
+                NativeMethods.git_strarray_dispose(ref Array);
             }
 
             // Now that we've freed the memory, zero out the structure.

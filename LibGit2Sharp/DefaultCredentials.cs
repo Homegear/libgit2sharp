@@ -16,7 +16,7 @@ namespace LibGit2Sharp
         /// <returns>0 for success, &lt; 0 to indicate an error, &gt; 0 to indicate no credential was acquired.</returns>
         protected internal override int GitCredentialHandler(out IntPtr cred)
         {
-            return NativeMethods.git_cred_default_new(out cred);
+            return NativeMethods.git_credential_default_new(out cred);
         }
     }
 }

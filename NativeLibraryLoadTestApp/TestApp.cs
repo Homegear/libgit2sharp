@@ -20,9 +20,16 @@ namespace LibGit2Sharp.Tests
                 Console.Error.WriteLine("Usage: <module-name> <directory>");
                 return -1;
             }
-
+                        
             var moduleName = args[0];
             var loadFromDirectory = args[1];
+
+/*            
+            var moduleName = "git2";
+            var loadFromDirectory = "C:\\Work\\Homegear\\ETS\\libgit2sharp-master\\bin\\LibGit2Sharp.Tests\\Release\\net48\\";
+*/            
+
+
             var expectedPath = Path.Combine(loadFromDirectory, (IntPtr.Size == 4) ? "x86" : "x64", moduleName + ".dll");
 
             GlobalSettings.NativeLibraryPath = loadFromDirectory;
@@ -34,7 +41,7 @@ namespace LibGit2Sharp.Tests
             int actualLength = GetModuleFileName(moduleHandle, buffer, capacity);
             var actualPath = buffer.ToString(0, actualLength);
 
-            if (expectedPath != actualPath)
+            if (!expectedPath.Equals(actualPath))
             {
                 Console.WriteLine(actualPath);
                 return 1;

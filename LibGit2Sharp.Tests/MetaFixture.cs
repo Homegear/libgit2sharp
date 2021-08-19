@@ -306,7 +306,7 @@ namespace LibGit2Sharp.Tests
                 // Ugly hack to circumvent a Mono bug
                 // cf. https://bugzilla.xamarin.com/show_bug.cgi?id=27010
                 .Where(t => !t.FullName.Contains("+"))
-                .Where(t => t.FullName != "LibGit2Sharp.Core.LeaksContainer")
+                .Where(t => (t.FullName != "LibGit2Sharp.Core.LeaksContainer" && t.FullName != "LibGit2Sharp.Core.NativeDllName"))
                 .ToList();
 
             if (types.Any())

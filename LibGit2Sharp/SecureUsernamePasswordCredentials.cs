@@ -28,7 +28,7 @@ namespace LibGit2Sharp
             {
                 passwordPtr = Marshal.SecureStringToGlobalAllocUnicode(Password);
 
-                return NativeMethods.git_cred_userpass_plaintext_new(out cred, Username, Marshal.PtrToStringUni(passwordPtr));
+                return NativeMethods.git_credential_userpass_plaintext_new(out cred, Username, Marshal.PtrToStringUni(passwordPtr));
             }
             finally
             {

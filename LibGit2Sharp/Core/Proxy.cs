@@ -36,34 +36,34 @@ namespace LibGit2Sharp.Core
 
         #region git_blob_
 
-        public static unsafe IntPtr git_blob_create_fromstream(RepositoryHandle repo, string hintpath)
+        public static unsafe IntPtr git_blob_create_from_stream(RepositoryHandle repo, string hintpath)
         {
             IntPtr writestream_ptr;
 
-            Ensure.ZeroResult(NativeMethods.git_blob_create_fromstream(out writestream_ptr, repo, hintpath));
+            Ensure.ZeroResult(NativeMethods.git_blob_create_from_stream(out writestream_ptr, repo, hintpath));
             return writestream_ptr;
         }
 
-        public static unsafe ObjectId git_blob_create_fromstream_commit(IntPtr writestream_ptr)
+        public static unsafe ObjectId git_blob_create_from_stream_commit(IntPtr writestream_ptr)
         {
             var oid = new GitOid();
-            Ensure.ZeroResult(NativeMethods.git_blob_create_fromstream_commit(ref oid, writestream_ptr));
+            Ensure.ZeroResult(NativeMethods.git_blob_create_from_stream_commit(ref oid, writestream_ptr));
             return oid;
         }
 
-        public static unsafe ObjectId git_blob_create_fromdisk(RepositoryHandle repo, FilePath path)
+        public static unsafe ObjectId git_blob_create_from_disk(RepositoryHandle repo, FilePath path)
         {
             var oid = new GitOid();
-            int res = NativeMethods.git_blob_create_fromdisk(ref oid, repo, path);
+            int res = NativeMethods.git_blob_create_from_disk(ref oid, repo, path);
             Ensure.ZeroResult(res);
 
             return oid;
         }
 
-        public static unsafe ObjectId git_blob_create_fromfile(RepositoryHandle repo, FilePath path)
+        public static unsafe ObjectId git_blob_create_from_file(RepositoryHandle repo, FilePath path)
         {
             var oid = new GitOid();
-            int res = NativeMethods.git_blob_create_fromworkdir(ref oid, repo, path);
+            int res = NativeMethods.git_blob_create_from_workdir(ref oid, repo, path);
             Ensure.ZeroResult(res);
 
             return oid;
@@ -76,7 +76,14 @@ namespace LibGit2Sharp.Core
 
             return new RawContentStream(handle, h =>
             {
-                Ensure.ZeroResult(NativeMethods.git_blob_filtered_content(buf, h, path, check_for_binary_data));
+                var opts = new git_blob_filter_options();
+                if (check_for_binary_data)
+                    opts.flags = GitBlobOptionFlags.GIT_BLOB_FILTER_CHECK_FOR_BINARY;
+                else
+                    opts.flags = GitBlobOptionFlags.GIT_BLOB_NONE;
+
+                Ensure.ZeroResult(NativeMethods.git_blob_filter(buf, h, path, opts));
+
                 return buf.ptr;
             },
             h => (long)buf.size,
@@ -664,11 +671,11 @@ namespace LibGit2Sharp.Core
 
         #endregion
 
-        #region git_cred_
+        #region git_credential_
 
-        public static void git_cred_free(IntPtr cred)
+        public static void git_credential_free(IntPtr cred)
         {
-            NativeMethods.git_cred_free(cred);
+            NativeMethods.git_credential_free(cred);
         }
 
         #endregion
@@ -1525,9 +1532,9 @@ namespace LibGit2Sharp.Core
             Ensure.ZeroResult(NativeMethods.git_odb_add_backend(odb, backend, priority));
         }
 
-        public static IntPtr git_odb_backend_malloc(IntPtr backend, UIntPtr len)
+        public static IntPtr git_odb_backend_data_alloc(IntPtr backend, UIntPtr len)
         {
-            IntPtr toReturn = NativeMethods.git_odb_backend_malloc(backend, len);
+            IntPtr toReturn = NativeMethods.git_odb_backend_data_alloc(backend, len);
 
             if (IntPtr.Zero == toReturn)
             {

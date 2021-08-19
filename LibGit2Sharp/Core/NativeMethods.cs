@@ -14,6 +14,11 @@ using LibGit2Sharp.Core.Handles;
 // ReSharper disable InconsistentNaming
 namespace LibGit2Sharp.Core
 {
+    public static class NativeDllName
+    {
+        public const string Name = "git2";
+    }
+
     internal static class NativeMethods
     {
         public const uint GIT_PATH_MAX = 4096;
@@ -252,34 +257,35 @@ namespace LibGit2Sharp.Core
         internal static extern unsafe void git_blame_free(git_blame* blame);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern unsafe int git_blob_create_fromdisk(
+        internal static extern unsafe int git_blob_create_from_disk(
             ref GitOid id,
             git_repository* repo,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalCookie = UniqueId.UniqueIdentifier, MarshalTypeRef = typeof(StrictFilePathMarshaler))] FilePath path);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern unsafe int git_blob_create_fromworkdir(
+        internal static extern unsafe int git_blob_create_from_workdir(
             ref GitOid id,
             git_repository* repo,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalCookie = UniqueId.UniqueIdentifier, MarshalTypeRef = typeof(StrictFilePathMarshaler))] FilePath relative_path);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern unsafe int git_blob_create_fromstream(
+        internal static extern unsafe int git_blob_create_from_stream(
             out IntPtr stream,
             git_repository* repositoryPtr,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalCookie = UniqueId.UniqueIdentifier, MarshalTypeRef = typeof(StrictUtf8Marshaler))] string hintpath);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int git_blob_create_fromstream_commit(
+        internal static extern int git_blob_create_from_stream_commit(
             ref GitOid oid,
             IntPtr stream);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern unsafe int git_blob_filtered_content(
+        internal static extern unsafe int git_blob_filter(
             GitBuf buf,
             git_object* blob,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalCookie = UniqueId.UniqueIdentifier, MarshalTypeRef = typeof(StrictUtf8Marshaler))] string as_path,
-            [MarshalAs(UnmanagedType.Bool)] bool check_for_binary_data);
+            git_blob_filter_options opts);
+
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
         internal static extern unsafe IntPtr git_blob_rawcontent(git_object* blob);
@@ -638,7 +644,7 @@ namespace LibGit2Sharp.Core
         // call StrictUtf8Marshaler.FromNative manually.  See the discussion here:
         // http://social.msdn.microsoft.com/Forums/en-US/netfx64bit/thread/1eb746c6-d695-4632-8a9e-16c4fa98d481
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        internal delegate int git_cred_acquire_cb(
+        internal delegate int git_credential_acquire_cb(
             out IntPtr cred,
             IntPtr url,
             IntPtr username_from_url,
@@ -646,16 +652,16 @@ namespace LibGit2Sharp.Core
             IntPtr payload);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int git_cred_default_new(out IntPtr cred);
+        internal static extern int git_credential_default_new(out IntPtr cred);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int git_cred_userpass_plaintext_new(
+        internal static extern int git_credential_userpass_plaintext_new(
             out IntPtr cred,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalCookie = UniqueId.UniqueIdentifier, MarshalTypeRef = typeof(StrictUtf8Marshaler))] string username,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalCookie = UniqueId.UniqueIdentifier, MarshalTypeRef = typeof(StrictUtf8Marshaler))] string password);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void git_cred_free(IntPtr cred);
+        internal static extern void git_credential_free(IntPtr cred);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
         internal static extern unsafe int git_describe_commit(
@@ -1075,7 +1081,7 @@ namespace LibGit2Sharp.Core
         internal static extern unsafe int git_odb_add_backend(git_odb* odb, IntPtr backend, int priority);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr git_odb_backend_malloc(IntPtr backend, UIntPtr len);
+        internal static extern IntPtr git_odb_backend_data_alloc(IntPtr backend, UIntPtr len);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
         internal static extern unsafe int git_odb_exists(git_odb* odb, ref GitOid id);
@@ -1801,7 +1807,7 @@ namespace LibGit2Sharp.Core
             git_status_list* statusList);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void git_strarray_free(
+        internal static extern void git_strarray_dispose(
             ref GitStrArray array);
 
         [DllImport(libgit2, CallingConvention = CallingConvention.Cdecl)]

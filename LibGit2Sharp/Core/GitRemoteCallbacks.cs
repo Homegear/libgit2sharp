@@ -15,7 +15,7 @@ namespace LibGit2Sharp.Core
 
         internal NativeMethods.remote_completion_callback completion;
 
-        internal NativeMethods.git_cred_acquire_cb acquire_credentials;
+        internal NativeMethods.git_credential_acquire_cb acquire_credentials;
 
         internal NativeMethods.git_transport_certificate_check_cb certificate_check;
 

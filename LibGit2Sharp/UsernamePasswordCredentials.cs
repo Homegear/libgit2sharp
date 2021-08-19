@@ -22,7 +22,7 @@ namespace LibGit2Sharp
                 throw new InvalidOperationException("UsernamePasswordCredentials contains a null Username or Password.");
             }
 
-            return NativeMethods.git_cred_userpass_plaintext_new(out cred, Username, Password);
+            return NativeMethods.git_credential_userpass_plaintext_new(out cred, Username, Password);
         }
 
         static internal unsafe UsernamePasswordCredentials FromNative(GitCredentialUserpass* gitCred)

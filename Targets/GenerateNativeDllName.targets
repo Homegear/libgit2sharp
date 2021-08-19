@@ -17,7 +17,7 @@
         {
         internal static class NativeDllName
         {
-        public const string Name = "$(libgit2_filename)"%3b
+        public const string Name = "git2"%3b
         }
         }
       </NativeDllNameSourceLines>

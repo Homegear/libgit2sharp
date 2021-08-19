@@ -244,7 +244,7 @@ namespace LibGit2Sharp
         }
 
         /// <summary>
-        /// Removes redundent leading namespaces (regarding the kind of
+        /// Removes redundant leading namespaces (regarding the kind of
         /// reference being wrapped) from the canonical name.
         /// </summary>
         /// <returns>The friendly shortened name</returns>

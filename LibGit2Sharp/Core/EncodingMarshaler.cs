@@ -166,4 +166,5 @@ namespace LibGit2Sharp.Core
             return encoding.GetString(buffer, 0, length);
         }
     }
+
 }

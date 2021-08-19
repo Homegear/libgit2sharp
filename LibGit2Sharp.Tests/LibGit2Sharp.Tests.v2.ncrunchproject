@@ -21,7 +21,7 @@
   <ProxyProcessPath></ProxyProcessPath>
   <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
   <MSTestThreadApartmentState>STA</MSTestThreadApartmentState>
-  <BuildProcessArchitecture>x86</BuildProcessArchitecture>
+  <BuildProcessArchitecture>x64</BuildProcessArchitecture>
   <IgnoredTests>
     <NamedTestSelector>
       <TestName>LibGit2Sharp.Tests.ShadowCopyFixture.CanProbeForNativeBinariesFromAShadowCopiedAssembly</TestName>

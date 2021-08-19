@@ -284,6 +284,27 @@ namespace LibGit2Sharp
             {
                 types |= SupportedCredentialTypes.Default;
             }
+            if (credTypes.HasFlag(GitCredentialType.SshKey))
+            {
+                types |= SupportedCredentialTypes.SshKey;
+            }
+            if (credTypes.HasFlag(GitCredentialType.SshMemory))
+            {
+                types |= SupportedCredentialTypes.SshMemory;
+            }
+            if (credTypes.HasFlag(GitCredentialType.SshCustom))
+            {
+                types |= SupportedCredentialTypes.SshCustom;
+            }
+            if (credTypes.HasFlag(GitCredentialType.SshInteractive))
+            {
+                types |= SupportedCredentialTypes.SshInteractive;
+            }
+            if (credTypes.HasFlag(GitCredentialType.Username))
+            {
+                types |= SupportedCredentialTypes.Username;
+            }
+
 
             ptr = IntPtr.Zero;
             try
